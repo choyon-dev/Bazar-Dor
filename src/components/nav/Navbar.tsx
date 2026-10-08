@@ -86,7 +86,7 @@ export default function Navbar() {
           </div>
         </div>
 
-        <nav className="flex items-center justify-center gap-6 md:gap-8 py-2.5 border-t border-slate-100 overflow-x-auto no-scrollbar">
+        <nav className="flex items-center justify-start md:justify-center gap-5 md:gap-8 py-2.5 px-3 md:px-0 border-t border-slate-100 overflow-x-auto no-scrollbar scroll-smooth">
           {categories.map((cat) => {
             const isActive = pathname === `/category/${cat.slug}`;
             const englishName = getCategoryEnglishName(cat.slug, cat.nameBn);
@@ -95,7 +95,7 @@ export default function Navbar() {
               <Link
                 key={cat.id || cat.slug}
                 href={`/category/${cat.slug}`}
-                className={`flex items-center gap-1.5 text-xs sm:text-sm font-medium whitespace-nowrap transition-colors ${
+                className={`shrink-0 flex items-center gap-1.5 text-xs sm:text-sm font-medium whitespace-nowrap transition-colors ${
                   isActive
                     ? "text-[#0f8544] font-bold"
                     : "text-slate-600 hover:text-slate-900"
