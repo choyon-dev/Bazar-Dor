@@ -1,7 +1,9 @@
+import Hero from "@/components/hero/Hero";
+
 export default function Home() {
   return (
-    <main className="p-8">
-      <h1 className="text-2xl font-bold">Bazar Dor</h1>
-    </main>
+    <div>
+      <Hero />
+    </div>
   );
 }
