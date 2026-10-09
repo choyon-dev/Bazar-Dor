@@ -103,3 +103,39 @@ export function getProductDisplayName(product: { nameBn?: string; slug?: string 
   }
   return product.nameBn || "";
 }
+
+const DIVISION_MAP: Record<string, string> = {
+  "ঢাকা": "Dhaka",
+  "চট্টগ্রাম": "Chattogram",
+  "রাজশাহী": "Rajshahi",
+  "ময়মনসিংহ": "Mymensingh",
+  "খুলনা": "Khulna",
+  "সিলেট": "Sylhet",
+  "বরিশাল": "Barishal",
+  "রংপুর": "Rangpur",
+};
+
+export function formatDivision(div: string | undefined): string {
+  if (!div) return "";
+  return DIVISION_MAP[div] || div;
+}
+
+const MARKET_MAP: Record<string, string> = {
+  "কারওয়ান বাজার": "Karwan Bazar",
+  "গ্রীন মার্কেট, মিরপুর": "Green Market, Mirpur",
+  "চৌদগ্রাম বাজার": "Chouddagram Bazar",
+  "আমতলী বাজার": "Amtali Bazar",
+  "সদর বাজার": "Sadar Bazar",
+  "বাসারহাট বাজার": "Basarhat Bazar",
+  "মাঠ বাজার": "Math Bazar",
+  "চৌর বাজার": "Chowr Bazar",
+  "বাজারহাট": "Bazarhat",
+  "ডবলগেট বাজার": "Double Gate Bazar",
+  "আমবাজার": "Ambazar",
+  "চৌরাস্তা বাজার": "Chowrasta Bazar",
+};
+
+export function formatMarketName(m: string | undefined): string {
+  if (!m) return "";
+  return MARKET_MAP[m] || m;
+}

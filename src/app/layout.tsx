@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Navbar from "@/components/nav/Navbar";
@@ -37,7 +38,9 @@ export default function RootLayout({
         suppressHydrationWarning
         className="min-h-full flex flex-col bg-[#f8fafc] text-slate-800"
       >
-        <Navbar />
+        <Suspense fallback={null}>
+          <Navbar />
+        </Suspense>
         <div className="flex-1">{children}</div>
         <Footer />
       </body>

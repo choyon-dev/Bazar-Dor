@@ -34,3 +34,13 @@ export async function getProducts(): Promise<Product[]> {
     return [];
   }
 }
+
+export async function getProductBySlug(slug: string): Promise<Product | null> {
+  try {
+    const products = await getProducts();
+    const product = products.find((p) => p.slug === slug);
+    return product || null;
+  } catch {
+    return null;
+  }
+}
