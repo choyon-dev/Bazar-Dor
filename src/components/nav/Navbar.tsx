@@ -79,7 +79,7 @@ export default function Navbar() {
             </Link>
             <Link
               href="/signup"
-              className="inline-flex items-center justify-center px-4 py-2 rounded-lg bg-[#0f8544] hover:bg-[#0d733b] text-white text-sm font-semibold shadow-xs transition-colors"
+              className="inline-flex items-center justify-center px-4.5 py-2 rounded-[30px] bg-[#0f8544] hover:bg-[#0d733b] text-white text-sm font-semibold shadow-xs transition-colors"
             >
               Sign Up
             </Link>
@@ -95,10 +95,10 @@ export default function Navbar() {
               <Link
                 key={cat.id || cat.slug}
                 href={`/category/${cat.slug}`}
-                className={`shrink-0 flex items-center gap-1.5 text-xs sm:text-sm font-medium whitespace-nowrap transition-colors ${
+                className={`shrink-0 flex items-center gap-1.5 text-xs sm:text-sm font-medium whitespace-nowrap transition-colors rounded-full px-3 py-1 ${
                   isActive
-                    ? "text-[#0f8544] font-bold"
-                    : "text-slate-600 hover:text-slate-900"
+                    ? "bg-slate-100 border border-slate-200/90 text-slate-900 font-bold shadow-2xs"
+                    : "text-slate-600 hover:text-slate-900 hover:bg-slate-50 border border-transparent"
                 }`}
               >
                 <span className="text-sm">{cat.icon}</span>

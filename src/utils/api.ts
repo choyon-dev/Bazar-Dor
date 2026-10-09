@@ -44,3 +44,21 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
     return null;
   }
 }
+
+export async function getCategoryBySlug(slug: string): Promise<Category | null> {
+  try {
+    const categories = await getCategories();
+    return categories.find((c) => c.slug === slug) || null;
+  } catch {
+    return null;
+  }
+}
+
+export async function getProductsByCategory(categorySlug: string): Promise<Product[]> {
+  try {
+    const products = await getProducts();
+    return products.filter((p) => p.category === categorySlug);
+  } catch {
+    return [];
+  }
+}

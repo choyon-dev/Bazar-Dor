@@ -33,3 +33,5 @@ export interface Category {
   nameBn: string;
   icon: string;
 }
+
+export type SortOption = "default" | "price-asc" | "price-desc";
