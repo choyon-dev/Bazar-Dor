@@ -1,7 +1,10 @@
 import type { Category, Product } from "@/types/Types";
 
-const BASE_URL_PRIMARY = "https://api.api-store.workers.dev/api/bazardor";
-const BASE_URL_FALLBACK = "https://api.abcz.workers.dev/api/bazardor";
+const BASE_URL_PRIMARY =
+  process.env.NEXT_PUBLIC_API_BASE_URL;
+
+const BASE_URL_FALLBACK =
+  process.env.NEXT_PUBLIC_API_FALLBACK_URL;
 
 async function fetchWithFallback<T>(endpoint: string): Promise<T> {
   try {

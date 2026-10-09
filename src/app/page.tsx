@@ -35,7 +35,7 @@ export default function Home() {
     <div className="flex flex-col min-h-screen">
       <Hero />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
         <section>
           <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2 mb-4">
             <span className="text-rose-600 text-sm">▲</span>
