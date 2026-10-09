@@ -13,7 +13,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8">
+    <section className="w-full">
       <div className="rounded-3xl border border-slate-200/90 bg-[#f9fbf9] p-8 sm:p-10 md:p-12">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
           <div className="md:col-span-7 lg:col-span-8 space-y-4">

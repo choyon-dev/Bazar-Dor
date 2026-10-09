@@ -32,10 +32,10 @@ export default function RootLayout({
     >
       <body
         suppressHydrationWarning
-        className="min-h-full flex flex-col bg-white text-slate-800"
+        className="min-h-full flex flex-col bg-[#f8fafc] text-slate-800"
       >
         <Navbar />
-        <main className="flex-1">{children}</main>
+        <div className="flex-1">{children}</div>
         <Footer />
       </body>
     </html>

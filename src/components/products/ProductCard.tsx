@@ -10,7 +10,7 @@ export default function ProductCard({ product }: { product: Product }) {
   return (
     <Link
       href={`/product/${product.slug}`}
-      className="block bg-white rounded-2xl border border-slate-200/80 p-4.5 hover:border-slate-300 hover:shadow-xs transition-all duration-200 cursor-pointer"
+      className="block bg-white rounded-2xl border border-slate-200/80 p-5 hover:border-slate-300 hover:shadow-xs transition-all duration-200 cursor-pointer"
     >
       <div className="flex items-center gap-3.5 mb-5">
         <div className="w-11 h-11 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center text-2xl shrink-0">
