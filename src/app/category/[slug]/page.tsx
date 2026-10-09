@@ -10,12 +10,15 @@ import {
 export async function generateStaticParams() {
   try {
     const categories = await getCategories();
-    return categories.map((cat) => ({
-      slug: cat.slug,
-    }));
+    if (categories && categories.length > 0) {
+      return categories.map((cat) => ({
+        slug: cat.slug,
+      }));
+    }
   } catch {
-    return [];
+    return [{ slug: "chal" }];
   }
+  return [{ slug: "chal" }];
 }
 
 function CategorySkeleton() {

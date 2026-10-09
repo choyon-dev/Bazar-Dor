@@ -9,7 +9,10 @@ export default function Hero() {
   const [dateStr, setDateStr] = useState("Tuesday, Oct 6, 2026");
 
   useEffect(() => {
-    setDateStr(getEnglishDate());
+    const raf = requestAnimationFrame(() => {
+      setDateStr(getEnglishDate());
+    });
+    return () => cancelAnimationFrame(raf);
   }, []);
 
   return (

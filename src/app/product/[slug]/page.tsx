@@ -13,12 +13,15 @@ import {
 export async function generateStaticParams() {
   try {
     const products = await getProducts();
-    return products.map((product) => ({
-      slug: product.slug,
-    }));
+    if (products && products.length > 0) {
+      return products.map((product) => ({
+        slug: product.slug,
+      }));
+    }
   } catch {
-    return [];
+    return [{ slug: "sorno-machi-chal" }];
   }
+  return [{ slug: "sorno-machi-chal" }];
 }
 
 function ProductSkeleton() {

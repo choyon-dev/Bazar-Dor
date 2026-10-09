@@ -26,7 +26,9 @@ export default function Navbar() {
   const [dateStr, setDateStr] = useState("Tuesday, Oct 6, 2026");
 
   useEffect(() => {
-    setDateStr(getEnglishDate());
+    const raf = requestAnimationFrame(() => {
+      setDateStr(getEnglishDate());
+    });
 
     getCategories().then((data) => {
       if (data && data.length > 0) {
@@ -39,6 +41,8 @@ export default function Navbar() {
         setProducts(data);
       }
     });
+
+    return () => cancelAnimationFrame(raf);
   }, []);
 
   const tickerList = products.length > 0 ? [...products, ...products] : [];

@@ -4,19 +4,34 @@ const BASE_URL_PRIMARY = process.env.NEXT_PUBLIC_API_BASE_URL || "";
 const BASE_URL_FALLBACK = process.env.NEXT_PUBLIC_API_FALLBACK_URL || "";
 
 async function fetchWithFallback<T>(endpoint: string): Promise<T> {
-  try {
-    const res = await fetch(`${BASE_URL_PRIMARY}${endpoint}`, {
-      next: { revalidate: 60 },
-    });
-    if (!res.ok) throw new Error(`Primary failed: ${res.status}`);
-    return await res.json();
-  } catch {
-    const fallbackRes = await fetch(`${BASE_URL_FALLBACK}${endpoint}`, {
-      next: { revalidate: 60 },
-    });
-    if (!fallbackRes.ok) throw new Error(`Fallback failed: ${fallbackRes.status}`);
-    return await fallbackRes.json();
+  const primary = BASE_URL_PRIMARY ? `${BASE_URL_PRIMARY}${endpoint}` : "";
+  const fallback = BASE_URL_FALLBACK ? `${BASE_URL_FALLBACK}${endpoint}` : "";
+
+  if (primary) {
+    try {
+      const res = await fetch(primary, {
+        next: { revalidate: 60 },
+      });
+      if (res.ok) {
+        return await res.json();
+      }
+    } catch {
+      if (!fallback) {
+        throw new Error("Primary failed and no fallback");
+      }
+    }
   }
+
+  if (fallback) {
+    const fallbackRes = await fetch(fallback, {
+      next: { revalidate: 60 },
+    });
+    if (fallbackRes.ok) {
+      return await fallbackRes.json();
+    }
+  }
+
+  throw new Error("Failed to fetch");
 }
 
 export async function getCategories(): Promise<Category[]> {
