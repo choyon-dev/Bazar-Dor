@@ -48,13 +48,13 @@ export default function Navbar() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-[#0f8544] flex items-center justify-center p-1.5 shadow-xs">
+            <div className="w-9 h-9 rounded-xl overflow-hidden shadow-xs flex items-center justify-center">
               <Image
-                src="/logo-icon.png"
+                src="/logoicon.svg"
                 alt="Bazar Dor"
-                width={22}
-                height={22}
-                className="object-contain"
+                width={36}
+                height={36}
+                className="w-full h-full object-cover"
               />
             </div>
             <div className="flex flex-col">

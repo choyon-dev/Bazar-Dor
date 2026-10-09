@@ -17,6 +17,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Bazar Dor — Daily Commodity Price Tracker",
   description: "Track daily prices of essential grocery commodities across local markets in Bangladesh.",
+  icons: {
+    icon: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({
