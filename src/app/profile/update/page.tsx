@@ -17,7 +17,7 @@ export default function ProfileUpdatePage() {
 
   useEffect(() => {
     if (!isPending && !session?.user) {
-      toast.error("প্রোফাইল আপডেট করতে সাইন ইন করুন");
+      toast.error("Please sign in to update your profile");
       router.push("/signin?callbackUrl=/profile/update");
     }
   }, [isPending, session, router]);
@@ -26,7 +26,7 @@ export default function ProfileUpdatePage() {
     e.preventDefault();
 
     if (!name.trim()) {
-      toast.error("দয়া করে নাম লিখুন");
+      toast.error("Please enter your name");
       return;
     }
 
@@ -37,14 +37,14 @@ export default function ProfileUpdatePage() {
       });
 
       if (res.error) {
-        toast.error(res.error.message || "তথ্য আপডেট করা যায়নি");
+        toast.error(res.error.message || "Failed to update profile");
       } else {
-        toast.success("তথ্য সফলভাবে আপডেট হয়েছে!");
+        toast.success("Profile updated successfully!");
         router.push("/profile");
         router.refresh();
       }
     } catch {
-      toast.error("তথ্য আপডেট করতে সমস্যা হয়েছে");
+      toast.error("Failed to update profile");
     } finally {
       setLoading(false);
     }
@@ -63,10 +63,10 @@ export default function ProfileUpdatePage() {
       <div className="w-full max-w-[480px]">
         <div className="text-center mb-6">
           <h1 className="text-2xl sm:text-3xl font-bold text-slate-800 tracking-tight">
-            তথ্য আপডেট করুন
+            Update Profile
           </h1>
           <p className="text-xs sm:text-sm text-slate-500 mt-2">
-            আপনার অ্যাকাউন্টের নাম পরিবর্তন করুন
+            Change your account name
           </p>
         </div>
 
@@ -74,13 +74,13 @@ export default function ProfileUpdatePage() {
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
               <label className="text-xs font-semibold text-slate-700 block mb-1.5">
-                নাম
+                Name
               </label>
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setCustomName(e.target.value)}
-                placeholder="আপনার নাম লিখুন"
+                placeholder="Enter your name"
                 required
                 className="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-[#15803d] focus:ring-2 focus:ring-[#15803d]/20 transition-all"
               />
@@ -88,7 +88,7 @@ export default function ProfileUpdatePage() {
 
             <div>
               <label className="text-xs font-semibold text-slate-700 block mb-1.5">
-                ইমেইল (পরিবর্তনযোগ্য নয়)
+                Email (cannot be changed)
               </label>
               <input
                 type="email"
@@ -104,14 +104,14 @@ export default function ProfileUpdatePage() {
                 disabled={loading}
                 className="w-full bg-[#15803d] hover:bg-[#137236] text-white py-3 rounded-xl font-medium text-sm transition-colors shadow-xs active:scale-[0.99] disabled:opacity-70"
               >
-                {loading ? "আপডেট হচ্ছে..." : "তথ্য আপডেট করুন"}
+                {loading ? "Updating..." : "Update Profile"}
               </button>
 
               <Link
                 href="/profile"
                 className="w-full border border-slate-200 hover:bg-slate-50 text-slate-700 py-2.5 rounded-xl font-medium text-sm transition-colors text-center"
               >
-                বাতিল করুন
+                Cancel
               </Link>
             </div>
           </form>
@@ -122,7 +122,7 @@ export default function ProfileUpdatePage() {
             href="/profile"
             className="text-xs sm:text-sm text-slate-500 hover:text-slate-800 transition-colors inline-flex items-center gap-1"
           >
-            <span>←</span> প্রোফাইলে ফিরে যান
+            <span>←</span> Back to Profile
           </Link>
         </div>
       </div>

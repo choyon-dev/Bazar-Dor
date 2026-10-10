@@ -8,7 +8,9 @@ import type { Category, Product } from "@/types/Types";
 import { getCategories, getProducts } from "@/utils/api";
 import { getEnglishDate, formatPrice, getProductDisplayName, getCategoryEnglishName } from "@/utils/format";
 import toast from "react-hot-toast";
+import { FiChevronDown, FiLogOut, FiUser } from "react-icons/fi";
 import { authClient } from "@/lib/auth-client";
+import UserAvatar from "@/components/common/UserAvatar";
 
 const DEFAULT_CATEGORIES: Category[] = [
   { id: "chal", slug: "chal", nameBn: "চাল", icon: "🍚" },
@@ -108,31 +110,27 @@ export default function Navbar() {
               <button
                 type="button"
                 onClick={() => setDropdownOpen(!dropdownOpen)}
-                className="flex items-center gap-2.5 py-1 px-1.5 rounded-2xl hover:bg-slate-50 transition-colors cursor-pointer select-none"
+                className="flex items-center gap-2 py-1 px-1.5 rounded-2xl hover:bg-slate-50 transition-colors cursor-pointer select-none"
               >
-                <div className="w-9 h-9 rounded-2xl overflow-hidden bg-slate-100 shrink-0 border border-slate-200/90 shadow-2xs">
-                  <Image
-                    src="/user-avatar.jpg"
-                    alt={session.user.name || "Rezwan"}
-                    width={36}
-                    height={36}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
+                <UserAvatar
+                  src={session.user.image}
+                  name={session.user.name}
+                  className="w-9 h-9 rounded-2xl"
+                />
                 <span className="text-sm font-semibold text-slate-800">
-                  {session.user.name ? session.user.name.split(" ")[0] : "Rezwan"}
+                  {session.user.name ? session.user.name.split(" ")[0] : "User"}
                 </span>
-                <span className="text-[10px] text-slate-400">▾</span>
+                <FiChevronDown className="w-3.5 h-3.5 text-slate-400" />
               </button>
 
               {dropdownOpen && (
                 <div className="absolute right-0 top-full mt-2 w-64 bg-white rounded-2xl border border-slate-100 shadow-xl p-5 z-50">
                   <div className="pb-3 border-b border-slate-100">
                     <p className="text-sm font-bold text-slate-900 truncate">
-                      {session.user.name || "Rezwan Ahmed"}
+                      {session.user.name || "User"}
                     </p>
                     <p className="text-xs text-slate-500 truncate mt-0.5">
-                      {session.user.email || "rezwanahmed@gmail.com"}
+                      {session.user.email || ""}
                     </p>
                   </div>
 
@@ -142,8 +140,8 @@ export default function Navbar() {
                       onClick={() => setDropdownOpen(false)}
                       className="flex items-center gap-2.5 text-sm text-slate-700 hover:text-slate-900 font-medium transition-colors"
                     >
-                      <span className="text-base text-slate-500">👤</span>
-                      <span>আমার প্রোফাইল</span>
+                      <FiUser className="w-4 h-4 text-slate-500 shrink-0" />
+                      <span>My Profile</span>
                     </Link>
 
                     <button
@@ -154,8 +152,8 @@ export default function Navbar() {
                       }}
                       className="w-full flex items-center gap-2.5 text-sm text-red-500 hover:text-red-600 font-medium transition-colors cursor-pointer text-left"
                     >
-                      <span className="text-base text-red-500">↩</span>
-                      <span>সাইন আউট</span>
+                      <FiLogOut className="w-4 h-4 text-red-500 shrink-0" />
+                      <span>Sign Out</span>
                     </button>
                   </div>
                 </div>

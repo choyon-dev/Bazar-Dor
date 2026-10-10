@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import { FiLogOut } from "react-icons/fi";
 import { authClient } from "@/lib/auth-client";
+import UserAvatar from "@/components/common/UserAvatar";
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -19,7 +20,7 @@ export default function ProfilePage() {
 
   useEffect(() => {
     if (!isPending && !session?.user) {
-      toast.error("প্রোফাইল দেখতে অনুগ্রহ করে সাইন ইন করুন");
+      toast.error("Please sign in to view your profile");
       router.push("/signin?callbackUrl=/profile");
     }
   }, [isPending, session, router]);
@@ -38,7 +39,7 @@ export default function ProfilePage() {
     e.preventDefault();
 
     if (!name.trim()) {
-      toast.error("দয়া করে নাম লিখুন");
+      toast.error("Please enter your name");
       return;
     }
 
@@ -49,13 +50,13 @@ export default function ProfilePage() {
       });
 
       if (res.error) {
-        toast.error(res.error.message || "তথ্য আপডেট করা যায়নি");
+        toast.error(res.error.message || "Failed to update profile");
       } else {
-        toast.success("তথ্য সফলভাবে আপডেট হয়েছে!");
+        toast.success("Profile updated successfully!");
         router.refresh();
       }
     } catch {
-      toast.error("তথ্য আপডেট করতে সমস্যা হয়েছে");
+      toast.error("Failed to update profile");
     } finally {
       setLoading(false);
     }
@@ -74,24 +75,20 @@ export default function ProfilePage() {
       <div className="w-full max-w-3xl mx-auto">
         <div className="mb-6">
           <h1 className="text-2xl sm:text-3xl font-bold text-slate-800 tracking-tight">
-            আমার প্রোফাইল
+            My Profile
           </h1>
           <p className="text-xs sm:text-sm text-slate-500 mt-1">
-            আপনার অ্যাকাউন্টের তথ্য এখানে দেখুন।
+            View and manage your account details.
           </p>
         </div>
 
         <div className="bg-white rounded-2xl border border-slate-200/80 p-5 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-2xs mb-6">
           <div className="flex items-center gap-4">
-            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden bg-slate-100 shrink-0 border border-slate-200/90 shadow-2xs">
-              <Image
-                src="/user-avatar.jpg"
-                alt={fullName}
-                width={80}
-                height={80}
-                className="w-full h-full object-cover"
-              />
-            </div>
+            <UserAvatar
+              src={session.user.image}
+              name={fullName}
+              className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl"
+            />
             <div>
               <h2 className="text-lg sm:text-xl font-bold text-slate-900 leading-snug">
                 {fullName}
@@ -107,24 +104,24 @@ export default function ProfilePage() {
             onClick={handleSignOut}
             className="border border-red-300 text-red-600 hover:bg-red-50 hover:border-red-400 rounded-xl px-4 py-2 text-sm font-medium transition-colors flex items-center gap-1.5 cursor-pointer self-end sm:self-center shrink-0"
           >
-            <span>↩</span>
-            <span>সাইন আউট</span>
+            <FiLogOut className="w-4 h-4" />
+            <span>Sign Out</span>
           </button>
         </div>
 
         <div className="bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-2xs">
-          <h3 className="text-base font-bold text-slate-800 mb-5">তথ্য</h3>
+          <h3 className="text-base font-bold text-slate-800 mb-5">Information</h3>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="text-xs font-semibold text-slate-700 block mb-2">
-                নাম
+                Name
               </label>
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setCustomName(e.target.value)}
-                placeholder="আপনার নাম লিখুন"
+                placeholder="Enter your name"
                 required
                 className="w-full border border-slate-200 bg-[#fafbfa] rounded-xl px-4 py-3 text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-[#15803d] focus:ring-2 focus:ring-[#15803d]/20 transition-all"
               />
@@ -135,7 +132,7 @@ export default function ProfilePage() {
               disabled={loading}
               className="w-full bg-[#15803d] hover:bg-[#137236] text-white py-3.5 rounded-xl font-medium text-sm transition-colors shadow-xs active:scale-[0.99] disabled:opacity-70 cursor-pointer mt-2"
             >
-              {loading ? "আপডেট হচ্ছে..." : "আপডেট"}
+              {loading ? "Updating..." : "Update"}
             </button>
           </form>
         </div>
