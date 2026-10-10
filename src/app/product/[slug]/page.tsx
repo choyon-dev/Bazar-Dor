@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import ProductAuthGuard from "@/components/auth/ProductAuthGuard";
 import { getProductBySlug, getProducts } from "@/utils/api";
 import {
   formatDivision,
@@ -93,7 +94,8 @@ async function ProductContent({
       : product.today;
 
   return (
-    <main className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8 space-y-8">
+    <ProductAuthGuard slug={slug}>
+      <main className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8 space-y-8">
       <nav className="flex items-center gap-2 text-xs sm:text-sm text-slate-500 font-medium">
         <Link href="/" className="hover:text-[#0f8544] transition-colors">
           Home
@@ -262,6 +264,7 @@ async function ProductContent({
         </div>
       </section>
     </main>
+    </ProductAuthGuard>
   );
 }
 

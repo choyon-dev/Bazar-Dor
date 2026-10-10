@@ -1,12 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { Category, Product } from "@/types/Types";
 import { getCategories, getProducts } from "@/utils/api";
 import { getEnglishDate, formatPrice, getProductDisplayName, getCategoryEnglishName } from "@/utils/format";
+import toast from "react-hot-toast";
+import { authClient } from "@/lib/auth-client";
 
 const DEFAULT_CATEGORIES: Category[] = [
   { id: "chal", slug: "chal", nameBn: "চাল", icon: "🍚" },
@@ -21,9 +23,36 @@ const DEFAULT_CATEGORIES: Category[] = [
 
 export default function Navbar() {
   const pathname = usePathname();
+  const { data: session } = authClient.useSession();
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const [categories, setCategories] = useState<Category[]>(DEFAULT_CATEGORIES);
   const [products, setProducts] = useState<Product[]>([]);
   const [dateStr, setDateStr] = useState("Tuesday, Oct 6, 2026");
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setDropdownOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const handleSignOut = async () => {
+    try {
+      await authClient.signOut();
+      toast.success("Signed out successfully");
+    } catch {
+      toast.error("Failed to sign out");
+    }
+  };
 
   useEffect(() => {
     const raf = requestAnimationFrame(() => {
@@ -74,20 +103,80 @@ export default function Navbar() {
             </div>
           </Link>
 
-          <div className="flex items-center gap-4">
-            <Link
-              href="/signin"
-              className="text-sm font-semibold text-slate-800 hover:text-[#0f8544] transition-colors"
-            >
-              Sign In
-            </Link>
-            <Link
-              href="/signup"
-              className="inline-flex items-center justify-center px-4.5 py-2 rounded-[30px] bg-[#0f8544] hover:bg-[#0d733b] text-white text-sm font-semibold shadow-xs transition-colors"
-            >
-              Sign Up
-            </Link>
-          </div>
+          {session?.user ? (
+            <div className="relative" ref={dropdownRef}>
+              <button
+                type="button"
+                onClick={() => setDropdownOpen(!dropdownOpen)}
+                className="flex items-center gap-2.5 py-1 px-1.5 rounded-2xl hover:bg-slate-50 transition-colors cursor-pointer select-none"
+              >
+                <div className="w-9 h-9 rounded-2xl overflow-hidden bg-slate-100 shrink-0 border border-slate-200/90 shadow-2xs">
+                  <Image
+                    src="/user-avatar.jpg"
+                    alt={session.user.name || "Rezwan"}
+                    width={36}
+                    height={36}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <span className="text-sm font-semibold text-slate-800">
+                  {session.user.name ? session.user.name.split(" ")[0] : "Rezwan"}
+                </span>
+                <span className="text-[10px] text-slate-400">▾</span>
+              </button>
+
+              {dropdownOpen && (
+                <div className="absolute right-0 top-full mt-2 w-64 bg-white rounded-2xl border border-slate-100 shadow-xl p-5 z-50">
+                  <div className="pb-3 border-b border-slate-100">
+                    <p className="text-sm font-bold text-slate-900 truncate">
+                      {session.user.name || "Rezwan Ahmed"}
+                    </p>
+                    <p className="text-xs text-slate-500 truncate mt-0.5">
+                      {session.user.email || "rezwanahmed@gmail.com"}
+                    </p>
+                  </div>
+
+                  <div className="pt-3 space-y-2.5">
+                    <Link
+                      href="/profile"
+                      onClick={() => setDropdownOpen(false)}
+                      className="flex items-center gap-2.5 text-sm text-slate-700 hover:text-slate-900 font-medium transition-colors"
+                    >
+                      <span className="text-base text-slate-500">👤</span>
+                      <span>আমার প্রোফাইল</span>
+                    </Link>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setDropdownOpen(false);
+                        handleSignOut();
+                      }}
+                      className="w-full flex items-center gap-2.5 text-sm text-red-500 hover:text-red-600 font-medium transition-colors cursor-pointer text-left"
+                    >
+                      <span className="text-base text-red-500">↩</span>
+                      <span>সাইন আউট</span>
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className="flex items-center gap-4">
+              <Link
+                href="/signin"
+                className="text-sm font-semibold text-slate-800 hover:text-[#0f8544] transition-colors"
+              >
+                Sign In
+              </Link>
+              <Link
+                href="/signup"
+                className="inline-flex items-center justify-center px-4.5 py-2 rounded-[30px] bg-[#0f8544] hover:bg-[#0d733b] text-white text-sm font-semibold shadow-xs transition-colors"
+              >
+                Sign Up
+              </Link>
+            </div>
+          )}
         </div>
 
         <nav className="flex items-center justify-start md:justify-center gap-5 md:gap-8 py-2.5 px-3 md:px-0 border-t border-slate-100 overflow-x-auto no-scrollbar scroll-smooth">
