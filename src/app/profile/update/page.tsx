@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
@@ -12,12 +12,16 @@ export default function ProfileUpdatePage() {
 
   const [customName, setCustomName] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const hasNotified = useRef(false);
 
   const name = customName !== null ? customName : session?.user?.name || "";
 
   useEffect(() => {
-    if (!isPending && !session?.user) {
-      toast.error("Please sign in to update your profile");
+    if (!isPending && !session?.user && !hasNotified.current) {
+      hasNotified.current = true;
+      toast.error("Please sign in to update your profile", {
+        id: "update-auth-redirect",
+      });
       router.push("/signin?callbackUrl=/profile/update");
     }
   }, [isPending, session, router]);
@@ -26,7 +30,7 @@ export default function ProfileUpdatePage() {
     e.preventDefault();
 
     if (!name.trim()) {
-      toast.error("Please enter your name");
+      toast.error("Please enter your name", { id: "profile-update" });
       return;
     }
 
@@ -37,14 +41,14 @@ export default function ProfileUpdatePage() {
       });
 
       if (res.error) {
-        toast.error(res.error.message || "Failed to update profile");
+        toast.error(res.error.message || "Failed to update profile", { id: "profile-update" });
       } else {
-        toast.success("Profile updated successfully!");
+        toast.success("Profile updated successfully!", { id: "profile-update" });
         router.push("/profile");
         router.refresh();
       }
     } catch {
-      toast.error("Failed to update profile");
+      toast.error("Failed to update profile", { id: "profile-update" });
     } finally {
       setLoading(false);
     }

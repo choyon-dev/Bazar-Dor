@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { FiLogOut } from "react-icons/fi";
@@ -13,14 +13,18 @@ export default function ProfilePage() {
 
   const [customName, setCustomName] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const hasNotified = useRef(false);
 
   const fullName = session?.user?.name || "Rezwan Ahmed";
   const email = session?.user?.email || "rezwanahmed@gmail.com";
   const name = customName !== null ? customName : fullName;
 
   useEffect(() => {
-    if (!isPending && !session?.user) {
-      toast.error("Please sign in to view your profile");
+    if (!isPending && !session?.user && !hasNotified.current) {
+      hasNotified.current = true;
+      toast.error("Please sign in to view your profile", {
+        id: "profile-auth-redirect",
+      });
       router.push("/signin?callbackUrl=/profile");
     }
   }, [isPending, session, router]);
@@ -28,10 +32,10 @@ export default function ProfilePage() {
   const handleSignOut = async () => {
     try {
       await authClient.signOut();
-      toast.success("Signed out successfully");
+      toast.success("Signed out successfully", { id: "signout-toast" });
       router.push("/");
     } catch {
-      toast.error("Failed to sign out");
+      toast.error("Failed to sign out", { id: "signout-toast" });
     }
   };
 
@@ -39,7 +43,7 @@ export default function ProfilePage() {
     e.preventDefault();
 
     if (!name.trim()) {
-      toast.error("Please enter your name");
+      toast.error("Please enter your name", { id: "profile-update" });
       return;
     }
 
@@ -50,13 +54,13 @@ export default function ProfilePage() {
       });
 
       if (res.error) {
-        toast.error(res.error.message || "Failed to update profile");
+        toast.error(res.error.message || "Failed to update profile", { id: "profile-update" });
       } else {
-        toast.success("Profile updated successfully!");
+        toast.success("Profile updated successfully!", { id: "profile-update" });
         router.refresh();
       }
     } catch {
-      toast.error("Failed to update profile");
+      toast.error("Failed to update profile", { id: "profile-update" });
     } finally {
       setLoading(false);
     }

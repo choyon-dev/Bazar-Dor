@@ -50,9 +50,9 @@ export default function Navbar() {
   const handleSignOut = async () => {
     try {
       await authClient.signOut();
-      toast.success("Signed out successfully");
+      toast.success("Signed out successfully", { id: "signout-toast" });
     } catch {
-      toast.error("Failed to sign out");
+      toast.error("Failed to sign out", { id: "signout-toast" });
     }
   };
 

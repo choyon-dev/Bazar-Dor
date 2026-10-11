@@ -19,17 +19,17 @@ function SignUpForm() {
     e.preventDefault();
 
     if (!name || !email || !password || !confirmPassword) {
-      toast.error("সবগুলো তথ্য পূরণ করুন");
+      toast.error("Please fill in all fields", { id: "signup-validation" });
       return;
     }
 
     if (password.length < 8) {
-      toast.error("পাসওয়ার্ড কমপক্ষে ৮ অক্ষরের হতে হবে");
+      toast.error("Password must be at least 8 characters", { id: "signup-validation" });
       return;
     }
 
     if (password !== confirmPassword) {
-      toast.error("পাসওয়ার্ড দুটি মিলছে না");
+      toast.error("Passwords do not match", { id: "signup-validation" });
       return;
     }
 
@@ -42,13 +42,13 @@ function SignUpForm() {
       });
 
       if (res.error) {
-        toast.error(res.error.message || "অ্যাকাউন্ট তৈরি করা যায়নি");
+        toast.error(res.error.message || "Failed to create account", { id: "signup-result" });
       } else {
-        toast.success("অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে! এবার সাইন ইন করুন।");
+        toast.success("Account created successfully! Please sign in.", { id: "signup-result" });
         router.push("/signin");
       }
     } catch {
-      toast.error("অ্যাকাউন্ট তৈরি করতে সমস্যা হয়েছে, আবার চেষ্টা করুন");
+      toast.error("Failed to create account. Please try again.", { id: "signup-result" });
     } finally {
       setLoading(false);
     }
@@ -61,7 +61,8 @@ function SignUpForm() {
         callbackURL: "/",
       });
     } catch {
-      toast(`${provider === "google" ? "গুগল" : "গিটহাব"} লগইন কনফিগারেশন প্রয়োজন`, {
+      toast(`${provider === "google" ? "Google" : "GitHub"} login configuration required`, {
+        id: "social-signup",
         icon: "ℹ️",
       });
     }
@@ -71,10 +72,10 @@ function SignUpForm() {
     <div className="w-full max-w-[480px]">
       <div className="text-center mb-6">
         <h1 className="text-2xl sm:text-3xl font-bold text-slate-800 tracking-tight">
-          অ্যাকাউন্ট তৈরি করুন
+          Create Account
         </h1>
         <p className="text-xs sm:text-sm text-slate-500 mt-2">
-          বিনা খরচে সাইন আপ করে সব বিস্তারিত দাম দেখুন।
+          Sign up for free to access detailed prices and market comparisons.
         </p>
       </div>
 
@@ -82,13 +83,13 @@ function SignUpForm() {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="text-xs font-semibold text-slate-700 block mb-1.5">
-              নাম
+              Name
             </label>
             <input
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="যেমন: রহিম উদ্দিন"
+              placeholder="e.g. John Doe"
               required
               className="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-[#15803d] focus:ring-2 focus:ring-[#15803d]/20 transition-all"
             />
@@ -96,7 +97,7 @@ function SignUpForm() {
 
           <div>
             <label className="text-xs font-semibold text-slate-700 block mb-1.5">
-              ইমেইল
+              Email
             </label>
             <input
               type="email"
@@ -110,13 +111,13 @@ function SignUpForm() {
 
           <div>
             <label className="text-xs font-semibold text-slate-700 block mb-1.5">
-              পাসওয়ার্ড
+              Password
             </label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="কমপক্ষে ৮ অক্ষর"
+              placeholder="At least 8 characters"
               required
               className="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-[#15803d] focus:ring-2 focus:ring-[#15803d]/20 transition-all"
             />
@@ -124,13 +125,13 @@ function SignUpForm() {
 
           <div>
             <label className="text-xs font-semibold text-slate-700 block mb-1.5">
-              পাসওয়ার্ড নিশ্চিত করুন
+              Confirm Password
             </label>
             <input
               type="password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              placeholder="আবার লিখুন"
+              placeholder="Confirm your password"
               required
               className="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-[#15803d] focus:ring-2 focus:ring-[#15803d]/20 transition-all"
             />
@@ -141,7 +142,7 @@ function SignUpForm() {
             disabled={loading}
             className="w-full bg-[#15803d] hover:bg-[#137236] text-white py-3 rounded-xl font-medium text-sm transition-colors shadow-xs active:scale-[0.99] disabled:opacity-70 mt-2"
           >
-            {loading ? "অ্যাকাউন্ট তৈরি হচ্ছে..." : "অ্যাকাউন্ট তৈরি করুন"}
+            {loading ? "Creating account..." : "Create Account"}
           </button>
         </form>
 
@@ -150,7 +151,7 @@ function SignUpForm() {
             <div className="w-full border-t border-slate-200" />
           </div>
           <div className="relative flex justify-center text-xs">
-            <span className="bg-white px-3 text-slate-400 font-medium">অথবা</span>
+            <span className="bg-white px-3 text-slate-400 font-medium">or</span>
           </div>
         </div>
 
@@ -178,7 +179,7 @@ function SignUpForm() {
                 d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
               />
             </svg>
-            <span className="truncate">Google দিয়ে চালিয়ে যান</span>
+            <span className="truncate">Continue with Google</span>
           </button>
 
           <button
@@ -193,18 +194,18 @@ function SignUpForm() {
                 d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
               />
             </svg>
-            <span className="truncate">GitHub দিয়ে চালিয়ে যান</span>
+            <span className="truncate">Continue with GitHub</span>
           </button>
         </div>
 
         <div className="text-center mt-6 pt-2">
           <p className="text-xs text-slate-500">
-            অ্যাকাউন্ট আছে?{" "}
+            Already have an account?{" "}
             <Link
               href="/signin"
               className="text-[#15803d] font-semibold hover:underline"
             >
-              সাইন ইন করুন
+              Sign In
             </Link>
           </p>
         </div>
@@ -215,7 +216,7 @@ function SignUpForm() {
           href="/"
           className="text-xs sm:text-sm text-slate-500 hover:text-slate-800 transition-colors inline-flex items-center gap-1"
         >
-          <span>←</span> হোম পেজে ফিরে যান
+          <span>←</span> Back to Home
         </Link>
       </div>
     </div>

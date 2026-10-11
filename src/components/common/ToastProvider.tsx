@@ -1,11 +1,22 @@
 "use client";
 
-import { Toaster } from "react-hot-toast";
+import { useEffect } from "react";
+import { Toaster, toast, useToasterStore } from "react-hot-toast";
 
 export default function ToastProvider() {
+  const { toasts } = useToasterStore();
+
+  useEffect(() => {
+    toasts
+      .filter((t) => t.visible)
+      .filter((_, i) => i >= 1)
+      .forEach((t) => toast.dismiss(t.id));
+  }, [toasts]);
+
   return (
     <Toaster
-      position="top-right"
+      position="bottom-right"
+      reverseOrder={false}
       toastOptions={{
         duration: 3500,
         style: {
