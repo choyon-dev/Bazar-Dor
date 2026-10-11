@@ -200,8 +200,8 @@ export default function Navbar() {
         </nav>
       </div>
 
-      {tickerList.length > 0 && (
-        <div className="w-full bg-[#fcfcfc] border-y border-slate-200/80 overflow-hidden py-2 text-xs select-none">
+      <div className="w-full h-[37px] bg-[#fcfcfc] border-y border-slate-200/80 overflow-hidden py-2 text-xs select-none">
+        {tickerList.length > 0 ? (
           <div className="animate-marquee flex items-center gap-8 whitespace-nowrap">
             {tickerList.map((item, idx) => {
               const isUp = item.change?.dir === "up";
@@ -237,8 +237,15 @@ export default function Navbar() {
               );
             })}
           </div>
-        </div>
-      )}
+        ) : (
+          <div className="h-full flex items-center gap-8 px-4 animate-pulse opacity-60">
+            <div className="h-3 w-36 bg-slate-200 rounded"></div>
+            <div className="h-3 w-44 bg-slate-200 rounded"></div>
+            <div className="h-3 w-40 bg-slate-200 rounded"></div>
+            <div className="h-3 w-48 bg-slate-200 rounded"></div>
+          </div>
+        )}
+      </div>
     </header>
   );
 }

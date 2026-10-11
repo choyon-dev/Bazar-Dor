@@ -80,8 +80,12 @@ export default function Home() {
       <section id="all-products">
         <div className="mb-4">
           <h2 className="text-xl font-bold text-slate-900">All Products</h2>
-          <p className="text-xs text-slate-500 font-medium mt-1">
-            Showing a total of {products.length} products
+          <p className="text-xs text-slate-500 font-medium mt-1 flex items-center h-4">
+            {loading ? (
+              <span className="inline-block w-40 h-3 bg-slate-200 rounded animate-pulse" />
+            ) : (
+              `Showing a total of ${products.length} products`
+            )}
           </p>
         </div>
 

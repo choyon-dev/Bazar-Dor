@@ -28,36 +28,36 @@ export async function generateStaticParams() {
 function ProductSkeleton() {
   return (
     <main className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8 space-y-8 animate-pulse">
-      <div className="h-4 bg-slate-200 rounded w-48"></div>
+      <div className="h-5 bg-slate-200 rounded w-52 mb-1"></div>
 
-      <div className="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-        <div className="flex items-center gap-4">
+      <div className="bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-xs">
+        <div className="flex items-center gap-4 sm:gap-5">
           <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-slate-200 shrink-0"></div>
           <div className="space-y-2">
-            <div className="h-7 bg-slate-200 rounded w-48"></div>
-            <div className="h-4 bg-slate-200 rounded w-28"></div>
-            <div className="h-3 bg-slate-200 rounded w-56"></div>
+            <div className="h-8 bg-slate-200 rounded w-56"></div>
+            <div className="h-4 bg-slate-200 rounded w-36 mt-1.5"></div>
+            <div className="h-4 bg-slate-200 rounded w-64 mt-2"></div>
           </div>
         </div>
-        <div className="w-36 h-28 bg-slate-100 rounded-2xl shrink-0"></div>
+        <div className="bg-slate-100 rounded-2xl min-w-[150px] sm:min-w-[170px] h-[148px] shrink-0 self-stretch md:self-auto"></div>
       </div>
 
-      <div className="space-y-3">
-        <div className="h-5 bg-slate-200 rounded w-36"></div>
+      <section>
+        <div className="h-6 bg-slate-200 rounded w-36 mb-3.5"></div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {Array.from({ length: 3 }).map((_, i) => (
             <div
               key={i}
-              className="bg-white rounded-2xl border border-slate-200/80 p-5 h-28"
+              className="bg-white rounded-2xl border border-slate-200/80 p-5 h-[116px]"
             ></div>
           ))}
         </div>
-      </div>
+      </section>
 
-      <div className="space-y-3">
-        <div className="h-5 bg-slate-200 rounded w-48"></div>
-        <div className="bg-white rounded-2xl border border-slate-200/80 p-6 h-64"></div>
-      </div>
+      <section>
+        <div className="h-6 bg-slate-200 rounded w-56 mb-3.5"></div>
+        <div className="bg-white rounded-2xl border border-slate-200/80 p-6 min-h-[360px]"></div>
+      </section>
     </main>
   );
 }

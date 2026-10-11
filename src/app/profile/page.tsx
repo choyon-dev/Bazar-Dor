@@ -64,8 +64,33 @@ export default function ProfilePage() {
 
   if (isPending || !session?.user) {
     return (
-      <main className="min-h-[calc(100vh-140px)] bg-[#edf2ed] flex items-center justify-center px-4 py-12">
-        <div className="w-full max-w-3xl bg-white rounded-2xl p-8 animate-pulse h-80" />
+      <main className="min-h-[calc(100vh-140px)] bg-[#edf2ed] px-4 py-10 sm:py-14 animate-pulse">
+        <div className="w-full max-w-3xl mx-auto">
+          <div className="mb-6 space-y-2">
+            <div className="h-8 bg-slate-200/80 rounded w-44"></div>
+            <div className="h-4 bg-slate-200/80 rounded w-64"></div>
+          </div>
+
+          <div className="bg-white rounded-2xl border border-slate-200/80 p-5 sm:p-6 flex items-center justify-between mb-6 h-28">
+            <div className="flex items-center gap-4">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-slate-200 shrink-0"></div>
+              <div className="space-y-2">
+                <div className="h-6 bg-slate-200 rounded w-40"></div>
+                <div className="h-4 bg-slate-200 rounded w-52"></div>
+              </div>
+            </div>
+            <div className="w-24 h-10 rounded-xl bg-slate-200 shrink-0 hidden sm:block"></div>
+          </div>
+
+          <div className="bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 h-64">
+            <div className="h-6 bg-slate-200 rounded w-28 mb-5"></div>
+            <div className="space-y-4">
+              <div className="h-4 bg-slate-200 rounded w-20"></div>
+              <div className="h-11 bg-slate-200 rounded w-full"></div>
+              <div className="h-12 bg-slate-200 rounded w-full mt-2"></div>
+            </div>
+          </div>
+        </div>
       </main>
     );
   }

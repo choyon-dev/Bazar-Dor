@@ -52,8 +52,14 @@ export default function ProfileUpdatePage() {
 
   if (isPending || !session?.user) {
     return (
-      <main className="min-h-[calc(100vh-140px)] bg-[#edf2ed] flex items-center justify-center px-4 py-12">
-        <div className="w-full max-w-[480px] bg-white rounded-3xl p-8 animate-pulse h-80" />
+      <main className="min-h-[calc(100vh-140px)] bg-[#edf2ed] flex items-center justify-center px-4 py-12 sm:py-16">
+        <div className="w-full max-w-[480px] animate-pulse">
+          <div className="text-center mb-6 space-y-2">
+            <div className="h-8 bg-slate-200/80 rounded w-48 mx-auto"></div>
+            <div className="h-4 bg-slate-200/80 rounded w-40 mx-auto"></div>
+          </div>
+          <div className="bg-white rounded-3xl border border-slate-200/90 shadow-sm p-7 sm:p-10 h-80" />
+        </div>
       </main>
     );
   }
